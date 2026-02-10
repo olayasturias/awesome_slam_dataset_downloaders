@@ -35,7 +35,7 @@ def download_aqualoc_harbor_site_sequences(output_folder: Path) -> list[str]:
     return download_site(HARBOR_URLS, output_folder)
 
 if __name__ == "__main__":
-    root = Path(r"D:\Datasets\Aqualoc2")
+    root = Path(r"D:\Datasets\Aqualoc")
 
     arch_dir = root / "Archaeological_site_sequences"
     downloaded = download_aqualoc_archaeological_site_sequences(arch_dir)

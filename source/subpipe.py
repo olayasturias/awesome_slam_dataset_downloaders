@@ -10,6 +10,6 @@ def download_subpipe(output_folder: str = r"D:\Datasets\SubPipe") -> list[str]:
 
 
 if __name__ == "__main__":
-    output_dir = r"D:\Datasets\SubPipe2"
+    output_dir = r"D:\Datasets\SubPipe"
     downloaded_files = download_subpipe(output_folder=output_dir)
     extract_zip_files(downloaded_files, output_dir)
