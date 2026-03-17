@@ -50,13 +50,12 @@ def download_tar_gz_files(urls, output_folder):
 
     for url in urls:
         try:
-            # Parse the file name from the URL
-            file_name = os.path.basename(extract_filename(url))
-
-            # Ensure it ends with .tar.gz
-            # if not file_name.endswith('.tar.gz'):
-            #     print(f"Skipping non-tar.gz file: {url}")
-            #     continue
+            # Try to extract filename from URL query, else fallback to URL path
+            extracted = extract_filename(url)
+            if extracted:
+                file_name = os.path.basename(extracted)
+            else:
+                file_name = os.path.basename(url)
 
             # Local file path
             file_path = os.path.join(output_folder, file_name)
@@ -95,7 +94,15 @@ def extract_tar_gz_file(file_paths, output_folder):
             return
 
         try:
-            with tarfile.open(file_path, 'r:gz') as tar:
+            # Detect file type and open accordingly
+            if file_path.endswith('.tar.gz') or file_path.endswith('.tgz'):
+                mode = 'r:gz'
+            elif file_path.endswith('.tar'):
+                mode = 'r'
+            else:
+                print(f"Unsupported tar file type: {file_path}")
+                continue
+            with tarfile.open(file_path, mode) as tar:
                 tar.extractall(path=output_folder)
                 print(f"Extracted {file_path} to {output_folder}")
         except Exception as e:

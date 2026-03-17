@@ -54,3 +54,39 @@ awesome_slam_dataset_downloaders/
 ├── scripts/
 ├── requirements.txt
 └── README.md
+```
+
+---
+
+## Web Downloader Interface
+
+A simple web interface is included for selecting and downloading datasets interactively.
+
+### Features
+- Select one or more datasets to download using checkboxes
+- Choose the local download folder using a folder picker
+- See real-time download progress, including file name and percentage
+- Stop downloads at any time
+- Uses the Vapor theme from Bootswatch for a modern look
+
+### How to Run
+
+1. **Install dependencies**
+   ```powershell
+   pip install -r requirements.txt
+   ```
+
+2. **Start the web downloader**
+   ```powershell
+   python web_downloader.py
+   ```
+
+3. **Usage**
+   - The web interface will open automatically.
+   - Select datasets and a download folder.
+   - Click "Download" to start.
+   - Monitor progress and stop downloads if needed.
+
+> **Note:** The interface is cross-platform and works on Windows, macOS, and Linux.
+
+---
