@@ -60,6 +60,8 @@ awesome_slam_dataset_downloaders/
 
 ## Web Downloader Interface
 
+![Web Downloader Interface Preview](media/preview.png)
+
 A simple web interface is included for selecting and downloading datasets interactively.
 
 ### Features
