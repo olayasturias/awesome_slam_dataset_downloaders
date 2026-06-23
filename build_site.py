@@ -18,7 +18,7 @@ DOCS = Path(__file__).parent / "docs"
 
 CSS = """
 :root{--bg:#1c1c1d;--card:#212529;--border:#424246;--fg:#e8e8e8;--muted:#828282;
---accent:#2698ba;--green:#2ea043;--grey:#6e7681}
+--accent:#b509ac;--green:#2ea043;--grey:#6e7681}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);
 font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
