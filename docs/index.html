@@ -35,6 +35,15 @@ margin:0 .3rem .3rem 0;border:1px solid var(--border);color:var(--muted)}
 border-radius:6px;color:var(--accent);background:transparent}
 .dl:hover{background:var(--accent);color:#221c2b;text-decoration:none}
 .links{margin-top:.6rem;font-size:.85rem}
+.cite{margin-top:.6rem;font-size:.85rem}
+.cite summary{cursor:pointer;color:var(--accent);list-style:none}
+.cite summary:hover{color:var(--hover)}
+.cite summary::-webkit-details-marker{display:none}
+.cite summary::before{content:"B8 ";color:var(--muted)}
+.cite[open] summary::before{content:"BE "}
+.cite pre{background:#2a2333;border:1px solid var(--border);border-radius:6px;
+padding:.6rem .7rem;overflow:auto;font-size:.76rem;line-height:1.45;margin:.4rem 0 0;
+white-space:pre;color:var(--fg)}
 footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
 </style>
 </head>
@@ -58,8 +67,17 @@ footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
       <div class="meta">Sensors: Mono camera</div>
       <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">zip</span></div>
       <div class="desc">Pipeline inspection dataset focused on structured underwater environments with ground-truth trajectories.</div>
-      <div class="links"><a href="https://github.com/remaro-network/SubPipe-dataset">Homepage</a></div>
+      <div class="links"><a href="https://github.com/remaro-network/SubPipe-dataset">Homepage</a> &middot; <a href="https://arxiv.org/abs/2401.17907">Paper</a></div>
       <div class="files"><a class="dl" href="https://zenodo.org/records/12666132/files/SubPipe.zip?download=1" download>SubPipe.zip</a></div>
+      <details class="cite"><summary>Cite</summary><pre>@inproceedings{alvareztunon2024subpipe,
+  author    = {{\&#x27;A}lvarez-Tu{\~n}{\&#x27;o}n, Olaya and Marnet, Luiza Ribeiro and Antal, L{\&#x27;a}szl{\&#x27;o} and Aubard, Martin and Costa, Maria and Brodskiy, Yury},
+  title     = {{SubPipe}: A Submarine Pipeline Inspection Dataset for Segmentation and Visual-inertial Localization},
+  booktitle = {OCEANS 2024 - Singapore},
+  year      = {2024},
+  pages     = {1--7},
+  publisher = {IEEE},
+  doi       = {10.1109/OCEANS51537.2024.10682150}
+}</pre></details>
     </div>
     <div class="card">
       <h2>SOTRUE</h2>
@@ -67,8 +85,20 @@ footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
       <div class="meta">Sensors: Camera images</div>
       <div class="badges"><span class="badge gt">Image frames</span><span class="badge">tar (images)</span></div>
       <div class="desc">Underwater image dataset captured across graded turbidity levels (turbid0-turbid5), each with repeated trials, for robustness studies.</div>
-      
+      <div class="links"><a href="https://doi.org/10.23919/OCEANS59106.2025.11245072">Paper</a></div>
       <div class="files"><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid0_trial1_images.tar" download>turbid0 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar" download>turbid0 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial1_images.tar" download>turbid1 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial2_images.tar" download>turbid1 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial1_images.tar" download>turbid2 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar" download>turbid2 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial1_images.tar" download>turbid3 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial2_images.tar" download>turbid3 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial1_images.tar" download>turbid4 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial2_images.tar" download>turbid4 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial1_images.tar" download>turbid5 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial2_images.tar" download>turbid5 trial2</a></div>
+      <details class="cite"><summary>Cite</summary><pre>@inproceedings{marburg2025sotrue,
+  author    = {Marburg, Aaron and Micatka, Marc},
+  title     = {A Dataset for the Assessment of Underwater {SLAM} Degradation in Turbid Water},
+  booktitle = {OCEANS 2025 - Great Lakes},
+  year      = {2025},
+  month     = sep,
+  pages     = {1--5},
+  address   = {Chicago, IL, USA},
+  publisher = {IEEE},
+  doi       = {10.23919/OCEANS59106.2025.11245072},
+  note      = {Introduces the Stereo Observations in TuRbid Underwater Environments (SOTRUE) dataset}
+}</pre></details>
     </div>
     <div class="card">
       <h2>EiffelTower</h2>
@@ -76,8 +106,19 @@ footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
       <div class="meta">Sensors: Mono camera</div>
       <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">zip</span></div>
       <div class="desc">Multi-year underwater survey (2015-2020) around the Eiffel Tower deep-sea vent. Suitable for long-term SLAM, temporal change analysis, and relocalization.</div>
-      <div class="links"><a href="https://www.seanoe.org/data/00810/92226/">Homepage</a></div>
+      <div class="links"><a href="https://www.seanoe.org/data/00810/92226/">Homepage</a> &middot; <a href="https://journals.sagepub.com/doi/10.1177/02783649231177322">Paper</a></div>
       <div class="files"><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98240.zip" download>2015</a><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98289.zip" download>2016</a><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98314.zip" download>2018</a><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98356.zip" download>2020</a></div>
+      <details class="cite"><summary>Cite</summary><pre>@article{boittiaux2023eiffel,
+  title   = {Eiffel Tower: A deep-sea underwater dataset for long-term visual localization},
+  author  = {Boittiaux, Cl{\&#x27;e}mentin and Dune, Claire and Ferrera, Maxime and Arnaubec, Aur{\&#x27;e}lien and Marxer, Ricard and Matabos, Marjolaine and Van Audenhaege, Lo{\&quot;i}c and Hugel, Vincent},
+  journal = {The International Journal of Robotics Research},
+  volume  = {42},
+  number  = {9},
+  pages   = {689--699},
+  year    = {2023},
+  publisher = {SAGE Publications},
+  doi     = {10.1177/02783649231177322}
+}</pre></details>
     </div>
     <div class="card">
       <h2>Aqualoc Archaeological Site</h2>
@@ -85,8 +126,19 @@ footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
       <div class="meta">Sensors: Mono camera, IMU, pressure</div>
       <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">tar.gz</span></div>
       <div class="desc">Large-scale underwater visual SLAM sequences at deep archaeological sites, with camera trajectories and challenging turbidity/lighting.</div>
-      <div class="links"><a href="https://www.aqualoc.org/">Homepage</a></div>
+      <div class="links"><a href="https://www.aqualoc.org/">Homepage</a> &middot; <a href="https://journals.sagepub.com/doi/10.1177/0278364919883346">Paper</a></div>
       <div class="files"><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_1_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_1</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_2_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_2</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_3_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_3</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_4_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_4</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_5_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_5</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_6_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_6</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_7_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_7</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_8_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_8</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_9_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_9</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_10_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_10</a></div>
+      <details class="cite"><summary>Cite</summary><pre>@article{ferrera2019aqualoc,
+  title   = {{AQUALOC}: An Underwater Dataset for Visual-Inertial-Pressure Localization},
+  author  = {Ferrera, Maxime and Creuze, Vincent and Moras, Julien and Trouv{\&#x27;e}-Peloux, Pauline},
+  journal = {The International Journal of Robotics Research},
+  volume  = {38},
+  number  = {14},
+  pages   = {1549--1559},
+  year    = {2019},
+  publisher = {SAGE Publications},
+  doi     = {10.1177/0278364919883346}
+}</pre></details>
     </div>
     <div class="card">
       <h2>Aqualoc Harbor Site</h2>
@@ -94,8 +146,19 @@ footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
       <div class="meta">Sensors: Mono camera, IMU, pressure</div>
       <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">tar.gz</span></div>
       <div class="desc">Shallow-water harbor sequences of the Aqualoc visual SLAM dataset, with camera trajectories and challenging turbidity/lighting.</div>
-      <div class="links"><a href="https://www.aqualoc.org/">Homepage</a></div>
+      <div class="links"><a href="https://www.aqualoc.org/">Homepage</a> &middot; <a href="https://journals.sagepub.com/doi/10.1177/0278364919883346">Paper</a></div>
       <div class="files"><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_01_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_01</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_02_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_02</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_03_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_03</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_04_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_04</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_05_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_05</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_06_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_06</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_07_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_07</a></div>
+      <details class="cite"><summary>Cite</summary><pre>@article{ferrera2019aqualoc,
+  title   = {{AQUALOC}: An Underwater Dataset for Visual-Inertial-Pressure Localization},
+  author  = {Ferrera, Maxime and Creuze, Vincent and Moras, Julien and Trouv{\&#x27;e}-Peloux, Pauline},
+  journal = {The International Journal of Robotics Research},
+  volume  = {38},
+  number  = {14},
+  pages   = {1549--1559},
+  year    = {2019},
+  publisher = {SAGE Publications},
+  doi     = {10.1177/0278364919883346}
+}</pre></details>
     </div>
     <div class="card">
       <h2>SOLAQUA</h2>
@@ -105,6 +168,14 @@ footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
       <div class="desc">SINTEF Ocean Large Aquaculture Robotics Dataset: net-following, manual-control and calibration sequences recorded by an underwater robot in an operational fish farm (63 sequences total).</div>
       <div class="links"><a href="https://data.sintef.no/feature/fe-a8f86232-5107-495e-a3dd-a86460eebef6">Homepage</a> &middot; <a href="https://arxiv.org/abs/2504.01790">Paper</a></div>
       <div class="note" style="margin:.6rem 0 0">Download links are access-controlled. <a href="https://data.sintef.no/feature/fe-a8f86232-5107-495e-a3dd-a86460eebef6">Visit the dataset portal</a>.</div>
+      <details class="cite"><summary>Cite</summary><pre>@misc{ohrem2025solaqua,
+  title         = {SOLAQUA: SINTEF Ocean Large Aquaculture Robotics Dataset},
+  author        = {Ohrem, Sveinung Johan and Haugal{\o}kken, Bent and Kelasidi, Eleni},
+  year          = {2025},
+  eprint        = {2504.01790},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO}
+}</pre></details>
     </div>
     <div class="card unreleased">
       <h2>SOVIS</h2>
@@ -114,6 +185,15 @@ footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
       <div class="desc">Sonar-visual dataset for cross-modal underwater perception: ~76.6k paired multibeam-sonar/camera frames over 17 dives at six Trondheimfjord sites. Data not yet publicly released.</div>
       <div class="links"><a href="https://arxiv.org/abs/2606.01398">Paper</a></div>
       <div class="note" style="margin:.6rem 0 0">Data not publicly released yet. <a href="https://arxiv.org/abs/2606.01398">See paper</a>.</div>
+      <details class="cite"><summary>Cite</summary><pre>@misc{chen2026sovis,
+  title         = {A Sonar-Visual Dataset for Cross-Modal Underwater Robot Perception},
+  author        = {Chen, Weitung and Tinn, Phil and Auran, Per Gunnar and Ludvigsen, Martin and Haro, Peter Halland},
+  year          = {2026},
+  eprint        = {2606.01398},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  note          = {ICRA 2026 S2S Workshop}
+}</pre></details>
     </div>
   </div>
   <footer>

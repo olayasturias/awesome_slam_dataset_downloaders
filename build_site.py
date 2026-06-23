@@ -47,6 +47,15 @@ margin:0 .3rem .3rem 0;border:1px solid var(--border);color:var(--muted)}
 border-radius:6px;color:var(--accent);background:transparent}
 .dl:hover{background:var(--accent);color:#221c2b;text-decoration:none}
 .links{margin-top:.6rem;font-size:.85rem}
+.cite{margin-top:.6rem;font-size:.85rem}
+.cite summary{cursor:pointer;color:var(--accent);list-style:none}
+.cite summary:hover{color:var(--hover)}
+.cite summary::-webkit-details-marker{display:none}
+.cite summary::before{content:"\25B8 ";color:var(--muted)}
+.cite[open] summary::before{content:"\25BE "}
+.cite pre{background:#2a2333;border:1px solid var(--border);border-radius:6px;
+padding:.6rem .7rem;overflow:auto;font-size:.76rem;line-height:1.45;margin:.4rem 0 0;
+white-space:pre;color:var(--fg)}
 footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
 """
 
@@ -93,6 +102,11 @@ def card_html(d) -> str:
         links.append(f'<a href="{esc(d.paper)}">Paper</a>')
     links_html = f'<div class="links">{" &middot; ".join(links)}</div>' if links else ""
 
+    cite_html = ""
+    if d.citation:
+        cite_html = (f'<details class="cite"><summary>Cite</summary>'
+                     f'<pre>{esc(d.citation.strip())}</pre></details>')
+
     meta = []
     if d.modalities:
         meta.append(f'<div class="meta">Sensors: {esc(d.modalities)}</div>')
@@ -106,6 +120,7 @@ def card_html(d) -> str:
       <div class="desc">{esc(d.description)}</div>
       {links_html}
       {files_html}
+      {cite_html}
     </div>"""
 
 
@@ -150,7 +165,8 @@ def manifest() -> str:
         {
             "name": d.name, "category": d.category, "description": d.description,
             "modalities": d.modalities, "data_format": d.data_format,
-            "homepage": d.homepage, "paper": d.paper, "license": d.license,
+            "homepage": d.homepage, "paper": d.paper, "citation": d.citation,
+            "license": d.license,
             "pose_gt": d.pose_gt, "image_frames": d.image_frames, "released": d.released,
             "files": [{"label": f.display, "url": f.url} for f in d.files],
         }

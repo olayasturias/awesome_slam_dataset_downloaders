@@ -7,6 +7,20 @@ from utils.download_utils import download_tar_gz_files, extract_tar_gz_file
 
 _SEAFILE = "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2F"
 
+# Both Aqualoc sites are introduced by the same IJRR 2019 paper.
+PAPER = "https://journals.sagepub.com/doi/10.1177/0278364919883346"
+CITATION = r"""@article{ferrera2019aqualoc,
+  title   = {{AQUALOC}: An Underwater Dataset for Visual-Inertial-Pressure Localization},
+  author  = {Ferrera, Maxime and Creuze, Vincent and Moras, Julien and Trouv{\'e}-Peloux, Pauline},
+  journal = {The International Journal of Robotics Research},
+  volume  = {38},
+  number  = {14},
+  pages   = {1549--1559},
+  year    = {2019},
+  publisher = {SAGE Publications},
+  doi     = {10.1177/0278364919883346}
+}"""
+
 ARCHAEO_FILES = [
     DatasetFile(
         f"{_SEAFILE}Archaeological_site_sequences%2Farchaeo_sequence_{i}_raw_data.tar.gz&dl=1",
@@ -50,6 +64,8 @@ AQUALOC_ARCHAEOLOGICAL = Dataset(
     modalities="Mono camera, IMU, pressure",
     data_format="tar.gz",
     homepage="https://www.aqualoc.org/",
+    paper=PAPER,
+    citation=CITATION,
     pose_gt=True,
     image_frames=True,
     downloader=download_archaeological,
@@ -64,6 +80,8 @@ AQUALOC_HARBOR = Dataset(
     modalities="Mono camera, IMU, pressure",
     data_format="tar.gz",
     homepage="https://www.aqualoc.org/",
+    paper=PAPER,
+    citation=CITATION,
     pose_gt=True,
     image_frames=True,
     downloader=download_harbor,

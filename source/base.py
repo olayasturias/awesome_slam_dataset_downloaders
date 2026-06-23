@@ -51,6 +51,7 @@ class Dataset:
     data_format: str = ""         # e.g. "ROS bag", "tar (images)", "zip"
     homepage: str = ""
     paper: str = ""
+    citation: str = ""           # BibTeX entry for the dataset's paper
     license: str = ""
     pose_gt: bool = False         # ground-truth poses available?
     image_frames: bool = False    # image frames available?
