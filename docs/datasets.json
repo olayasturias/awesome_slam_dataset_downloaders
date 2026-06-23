@@ -1,0 +1,241 @@
+[
+  {
+    "name": "SubPipe",
+    "category": "Underwater",
+    "description": "Pipeline inspection dataset focused on structured underwater environments with ground-truth trajectories.",
+    "modalities": "Mono camera",
+    "data_format": "zip",
+    "homepage": "https://github.com/remaro-network/SubPipe-dataset",
+    "paper": "",
+    "license": "",
+    "pose_gt": true,
+    "image_frames": true,
+    "released": true,
+    "files": [
+      {
+        "label": "SubPipe.zip",
+        "url": "https://zenodo.org/records/12666132/files/SubPipe.zip?download=1"
+      }
+    ]
+  },
+  {
+    "name": "SOTRUE",
+    "category": "Underwater",
+    "description": "Underwater image dataset captured across graded turbidity levels (turbid0-turbid5), each with repeated trials, for robustness studies.",
+    "modalities": "Camera images",
+    "data_format": "tar (images)",
+    "homepage": "",
+    "paper": "",
+    "license": "",
+    "pose_gt": false,
+    "image_frames": true,
+    "released": true,
+    "files": [
+      {
+        "label": "turbid0 trial1",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid0_trial1_images.tar"
+      },
+      {
+        "label": "turbid0 trial2",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar"
+      },
+      {
+        "label": "turbid1 trial1",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial1_images.tar"
+      },
+      {
+        "label": "turbid1 trial2",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial2_images.tar"
+      },
+      {
+        "label": "turbid2 trial1",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial1_images.tar"
+      },
+      {
+        "label": "turbid2 trial2",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar"
+      },
+      {
+        "label": "turbid3 trial1",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial1_images.tar"
+      },
+      {
+        "label": "turbid3 trial2",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial2_images.tar"
+      },
+      {
+        "label": "turbid4 trial1",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial1_images.tar"
+      },
+      {
+        "label": "turbid4 trial2",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial2_images.tar"
+      },
+      {
+        "label": "turbid5 trial1",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial1_images.tar"
+      },
+      {
+        "label": "turbid5 trial2",
+        "url": "https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial2_images.tar"
+      }
+    ]
+  },
+  {
+    "name": "EiffelTower",
+    "category": "Underwater",
+    "description": "Multi-year underwater survey (2015-2020) around the Eiffel Tower deep-sea vent. Suitable for long-term SLAM, temporal change analysis, and relocalization.",
+    "modalities": "Mono camera",
+    "data_format": "zip",
+    "homepage": "https://www.seanoe.org/data/00810/92226/",
+    "paper": "",
+    "license": "",
+    "pose_gt": true,
+    "image_frames": true,
+    "released": true,
+    "files": [
+      {
+        "label": "2015",
+        "url": "https://www.seanoe.org/data/00810/92226/data/98240.zip"
+      },
+      {
+        "label": "2016",
+        "url": "https://www.seanoe.org/data/00810/92226/data/98289.zip"
+      },
+      {
+        "label": "2018",
+        "url": "https://www.seanoe.org/data/00810/92226/data/98314.zip"
+      },
+      {
+        "label": "2020",
+        "url": "https://www.seanoe.org/data/00810/92226/data/98356.zip"
+      }
+    ]
+  },
+  {
+    "name": "Aqualoc Archaeological Site",
+    "category": "Underwater",
+    "description": "Large-scale underwater visual SLAM sequences at deep archaeological sites, with camera trajectories and challenging turbidity/lighting.",
+    "modalities": "Mono camera, IMU, pressure",
+    "data_format": "tar.gz",
+    "homepage": "https://www.aqualoc.org/",
+    "paper": "",
+    "license": "",
+    "pose_gt": true,
+    "image_frames": true,
+    "released": true,
+    "files": [
+      {
+        "label": "archaeo_sequence_1",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_1_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_2",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_2_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_3",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_3_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_4",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_4_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_5",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_5_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_6",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_6_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_7",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_7_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_8",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_8_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_9",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_9_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "archaeo_sequence_10",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_10_raw_data.tar.gz&dl=1"
+      }
+    ]
+  },
+  {
+    "name": "Aqualoc Harbor Site",
+    "category": "Underwater",
+    "description": "Shallow-water harbor sequences of the Aqualoc visual SLAM dataset, with camera trajectories and challenging turbidity/lighting.",
+    "modalities": "Mono camera, IMU, pressure",
+    "data_format": "tar.gz",
+    "homepage": "https://www.aqualoc.org/",
+    "paper": "",
+    "license": "",
+    "pose_gt": true,
+    "image_frames": true,
+    "released": true,
+    "files": [
+      {
+        "label": "harbor_sequence_01",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_01_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "harbor_sequence_02",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_02_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "harbor_sequence_03",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_03_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "harbor_sequence_04",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_04_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "harbor_sequence_05",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_05_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "harbor_sequence_06",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_06_raw_data.tar.gz&dl=1"
+      },
+      {
+        "label": "harbor_sequence_07",
+        "url": "https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_07_raw_data.tar.gz&dl=1"
+      }
+    ]
+  },
+  {
+    "name": "SOLAQUA",
+    "category": "Underwater",
+    "description": "SINTEF Ocean Large Aquaculture Robotics Dataset: net-following, manual-control and calibration sequences recorded by an underwater robot in an operational fish farm (63 sequences total).",
+    "modalities": "Mono + stereo cameras, multibeam sonar, DVL, USBL, IMU, baro",
+    "data_format": "ROS bag",
+    "homepage": "https://data.sintef.no/feature/fe-a8f86232-5107-495e-a3dd-a86460eebef6",
+    "paper": "https://arxiv.org/abs/2504.01790",
+    "license": "CC BY-SA 4.0",
+    "pose_gt": true,
+    "image_frames": true,
+    "released": true,
+    "files": []
+  },
+  {
+    "name": "SOVIS",
+    "category": "Underwater",
+    "description": "Sonar-visual dataset for cross-modal underwater perception: ~76.6k paired multibeam-sonar/camera frames over 17 dives at six Trondheimfjord sites. Data not yet publicly released.",
+    "modalities": "Mono camera + multibeam sonar (Oculus M750d)",
+    "data_format": "ROS 2 bag (sonar) + H.264 (video)",
+    "homepage": "",
+    "paper": "https://arxiv.org/abs/2606.01398",
+    "license": "",
+    "pose_gt": false,
+    "image_frames": true,
+    "released": false,
+    "files": []
+  }
+]

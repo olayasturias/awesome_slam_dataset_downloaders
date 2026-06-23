@@ -1,158 +1,207 @@
+"""Generic download + extraction helpers shared by every dataset module.
+
+All download helpers accept an optional ``progress_cb(fraction, message)`` where
+``fraction`` is overall progress in ``[0, 1]`` across the whole batch. The web UI
+uses it to render real progress bars; CLI use can ignore it.
+"""
+import logging
 import os
-import requests
+import tarfile
 import zipfile
-from typing import Iterable
+from typing import Callable, Iterable, Optional
 from urllib.parse import urlparse, parse_qs
 
+import requests
 
-def extract_filename(url):
+logger = logging.getLogger(__name__)
+
+# (overall_fraction in [0, 1], message)
+ProgressCb = Callable[[float, str], None]
+
+_CHUNK = 8192
+
+
+def extract_filename(url: str) -> Optional[str]:
+    """Best-effort filename from a URL.
+
+    Handles Seafile-style links that carry the real path in a ``?p=`` query
+    parameter (used by the Aqualoc mirror); returns ``None`` otherwise so the
+    caller can fall back to the URL path.
     """
-    Extracts the filename from the given URL.
-
-    Args:
-        url (str): The URL to extract the filename from.
-
-    Returns:
-        str: The extracted filename, or None if not found.
-    """
-    response = requests.get(url, stream=True)
-    print(f"Status code: {response.status_code}")
-    print(f"Content-Type: {response.headers.get('Content-Type')}")
-
-    # Parse the URL
     parsed_url = urlparse(url)
-
-    # Extract the query parameters
     query_params = parse_qs(parsed_url.query)
-
-    # Check if 'p' parameter exists and retrieve the last part as the filename
     if 'p' in query_params:
-        file_path = query_params['p'][0]  # Get the first value of the 'p' parameter
-        return file_path.split('/')[-1]  # Extract the filename
+        file_path = query_params['p'][0]
+        return file_path.split('/')[-1]
     return None
 
 
-def download_tar_gz_files(urls, output_folder):
+def _filename_for(url: str, fallback: Optional[str] = None) -> str:
+    extracted = extract_filename(url)
+    if extracted:
+        return os.path.basename(extracted)
+    if fallback:
+        return fallback
+    name = os.path.basename(urlparse(url).path)
+    return name or "download.bin"
+
+
+def download_file(
+    url: str,
+    file_path: str,
+    on_bytes: Optional[Callable[[int, int], None]] = None,
+) -> str:
+    """Stream a single URL to ``file_path``.
+
+    ``on_bytes(downloaded, total)`` is called as bytes arrive (``total`` is 0
+    when the server sends no ``Content-Length``). Returns ``file_path``.
     """
-    Downloads a list of .tar.gz files from the given URLs to a local folder.
+    logger.info("Downloading %s -> %s", url, file_path)
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
 
-    Args:
-        urls (list): A list of URLs pointing to .tar.gz files.
-        output_folder (str): The local folder where the files will be saved.
+    total = int(response.headers.get("Content-Length", 0))
+    downloaded = 0
+    with open(file_path, "wb") as fh:
+        for chunk in response.iter_content(chunk_size=_CHUNK):
+            if not chunk:
+                continue
+            fh.write(chunk)
+            downloaded += len(chunk)
+            if on_bytes:
+                on_bytes(downloaded, total)
+    logger.info("Downloaded %s (%d bytes)", file_path, downloaded)
+    return file_path
 
-    Returns:
-        list: A list of file paths to the downloaded files.
+
+def _download_batch(
+    items: "list[tuple[str, str]]",
+    progress_cb: Optional[ProgressCb] = None,
+) -> "list[str]":
+    """Download ``(url, file_path)`` pairs, reporting overall progress.
+
+    Overall fraction blends completed files with the current file's byte
+    progress: ``(files_done + current_fraction) / total_files``.
     """
-    # Ensure the output folder exists
-    os.makedirs(output_folder, exist_ok=True)
+    total_files = len(items)
+    downloaded_files: "list[str]" = []
 
-    downloaded_files = []
+    for index, (url, file_path) in enumerate(items):
+        def on_bytes(done: int, total: int, _index=index, _url=url):
+            if not progress_cb:
+                return
+            # Clamp: with gzip transfer-encoding the decoded byte count can
+            # exceed the (compressed) Content-Length, pushing the ratio past 1.
+            file_frac = min(1.0, done / total) if total else 0.0
+            overall = min(1.0, (_index + file_frac) / total_files)
+            progress_cb(overall, f"Downloading {os.path.basename(file_path)}")
 
-    for url in urls:
         try:
-            # Try to extract filename from URL query, else fallback to URL path
-            extracted = extract_filename(url)
-            if extracted:
-                file_name = os.path.basename(extracted)
-            else:
-                file_name = os.path.basename(url)
-
-            # Local file path
-            file_path = os.path.join(output_folder, file_name)
-
-            # Download the file
-            print(f"Downloading {url} to {file_path}")
-            response = requests.get(url, stream=True)
-            response.raise_for_status()  # Raise an error for bad status codes
-
-            # Write the file to the local directory
-            with open(file_path, 'wb') as file:
-                for chunk in response.iter_content(chunk_size=8192):
-                    file.write(chunk)
-
+            download_file(url, file_path, on_bytes=on_bytes)
             downloaded_files.append(file_path)
-            print(f"Downloaded: {file_path}")
-
-        except requests.RequestException as e:
-            print(f"Failed to download {url}: {e}")
+        except requests.RequestException as exc:
+            logger.error("Failed to download %s: %s", url, exc)
+        if progress_cb:
+            progress_cb((index + 1) / total_files, f"Downloaded {os.path.basename(file_path)}")
 
     return downloaded_files
 
 
-def extract_tar_gz_file(file_paths, output_folder):
-    """
-    Extracts a .tar.gz file to the specified output folder.
+def download_files(
+    urls: Iterable[str],
+    output_folder: str,
+    progress_cb: Optional[ProgressCb] = None,
+    names: "Optional[dict[str, str]]" = None,
+) -> "list[str]":
+    """Download raw files (no extraction) into ``output_folder``.
 
-    Args:
-        file_path (list): The list of paths to the .tar.gz file.
-        output_folder (str): The folder where the contents will be extracted.
-    """
-    import tarfile
-    for file_path in file_paths:
-        if not os.path.exists(file_path):
-            print(f"File not found: {file_path}")
-            return
-
-        try:
-            # Detect file type and open accordingly
-            if file_path.endswith('.tar.gz') or file_path.endswith('.tgz'):
-                mode = 'r:gz'
-            elif file_path.endswith('.tar'):
-                mode = 'r'
-            else:
-                print(f"Unsupported tar file type: {file_path}")
-                continue
-            with tarfile.open(file_path, mode) as tar:
-                tar.extractall(path=output_folder)
-                print(f"Extracted {file_path} to {output_folder}")
-        except Exception as e:
-            print(f"Failed to extract {file_path}: {e}")
-
-def extract_zip_files(zip_files: Iterable[str], output_folder: str) -> None:
-    """
-    Extracts a list of .zip files into the given output folder.
-
-    Args:
-        zip_files (Iterable[str]): Paths to .zip files.
-        output_folder (str): Directory where files will be extracted.
+    ``names`` optionally maps a URL to a desired local filename.
     """
     os.makedirs(output_folder, exist_ok=True)
+    names = names or {}
+    items = [
+        (url, os.path.join(output_folder, names.get(url, _filename_for(url))))
+        for url in urls
+    ]
+    return _download_batch(items, progress_cb)
 
+
+def download_tar_gz_files(
+    urls: Iterable[str],
+    output_folder: str,
+    progress_cb: Optional[ProgressCb] = None,
+) -> "list[str]":
+    """Download a list of .tar/.tar.gz files into ``output_folder``."""
+    return download_files(urls, output_folder, progress_cb=progress_cb)
+
+
+def download_zip_dict(
+    urls: dict,
+    output_folder: str,
+    progress_cb: Optional[ProgressCb] = None,
+) -> "list[str]":
+    """Download ``{key: url}`` files, naming each local file ``<key>.zip``."""
+    os.makedirs(output_folder, exist_ok=True)
+    items = [
+        (url, os.path.join(output_folder, f"{key}.zip"))
+        for key, url in urls.items()
+    ]
+    return _download_batch(items, progress_cb)
+
+
+def extract_tar_gz_file(file_paths: Iterable[str], output_folder: str) -> None:
+    """Extract .tar / .tar.gz / .tgz archives into ``output_folder``."""
+    for file_path in file_paths:
+        if not os.path.exists(file_path):
+            logger.warning("File not found: %s", file_path)
+            continue
+        if file_path.endswith('.tar.gz') or file_path.endswith('.tgz'):
+            mode = 'r:gz'
+        elif file_path.endswith('.tar'):
+            mode = 'r'
+        else:
+            logger.warning("Unsupported tar file type: %s", file_path)
+            continue
+        try:
+            with tarfile.open(file_path, mode) as tar:
+                tar.extractall(path=output_folder)
+            logger.info("Extracted %s -> %s", file_path, output_folder)
+        except Exception as exc:  # noqa: BLE001 - report and continue with the rest
+            logger.error("Failed to extract %s: %s", file_path, exc)
+
+
+def extract_zip_files(zip_files: Iterable[str], output_folder: str) -> None:
+    """Extract a list of .zip files into ``output_folder``."""
+    os.makedirs(output_folder, exist_ok=True)
     for zip_path in zip_files:
         if not zipfile.is_zipfile(zip_path):
-            print(f"Skipping non-zip file: {zip_path}")
+            logger.warning("Skipping non-zip file: %s", zip_path)
             continue
-
-        print(f"Extracting {zip_path} to {output_folder}")
+        logger.info("Extracting %s -> %s", zip_path, output_folder)
         with zipfile.ZipFile(zip_path, "r") as zip_ref:
             zip_ref.extractall(output_folder)
 
 
-def download_zip_dict(urls: dict, output_folder: str) -> list[str]:
+def download_and_extract_grouped(
+    items: "Iterable[tuple[str, str]]",
+    output_folder: str,
+    progress_cb: Optional[ProgressCb] = None,
+) -> "list[str]":
+    """Download ``(url, subfolder)`` tar archives, extracting each into its own
+    ``output_folder/subfolder``. Used by datasets split into per-trial folders.
     """
-    Downloads a dictionary of .zip files to a local folder.
-    """
-    os.makedirs(output_folder, exist_ok=True)
-    downloaded_files = []
+    items = list(items)
+    total = len(items)
+    produced: "list[str]" = []
+    for index, (url, subfolder) in enumerate(items):
+        dest = os.path.join(output_folder, str(subfolder))
+        os.makedirs(dest, exist_ok=True)
 
-    for key, url in urls.items():
-        try:
-            file_name = f"{key}.zip"
-            file_path = os.path.join(output_folder, file_name)
+        def on_overall(frac: float, msg: str, _i=index):
+            if progress_cb:
+                progress_cb((_i + frac) / total, msg)
 
-            print(f"Downloading {url} → {file_path}")
-            response = requests.get(url, stream=True)
-            response.raise_for_status()
-
-            with open(file_path, "wb") as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
-
-            downloaded_files.append(file_path)
-            print(f"Downloaded: {file_path}")
-
-        except requests.RequestException as e:
-            print(f"Failed to download {url}: {e}")
-
-    return downloaded_files
+        downloaded = download_tar_gz_files([url], dest, progress_cb=on_overall)
+        extract_tar_gz_file(downloaded, dest)
+        produced.extend(downloaded)
+    return produced

@@ -1,33 +1,45 @@
-import os
-from utils.download_utils import download_tar_gz_files, extract_tar_gz_file
+"""SOTRUE -- underwater images across graded turbidity levels (Wasabi S3)."""
+from pathlib import Path
+from typing import Optional
 
+from source.base import Dataset, DatasetFile, ProgressCb
+from utils.download_utils import download_and_extract_grouped
 
-TAR_FILES = [
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid0_trial1_images.tar", "turbid0/trial1"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar", "turbid0/trial2"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial1_images.tar", "turbid1/trial1"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial2_images.tar", "turbid1/trial2"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial1_images.tar", "turbid2/trial1"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar", "turbid2/trial2"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial1_images.tar", "turbid3/trial1"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial2_images.tar", "turbid3/trial2"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial1_images.tar", "turbid4/trial1"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial2_images.tar", "turbid4/trial2"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial1_images.tar", "turbid5/trial1"),
-    ("https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial2_images.tar", "turbid5/trial2"),
+_BASE = "https://s3.us-west-1.wasabisys.com/sotrue"
+
+FILES = [
+    DatasetFile(f"{_BASE}/turbid0_trial1_images.tar", "turbid0 trial1", "turbid0/trial1"),
+    DatasetFile(f"{_BASE}/turbid2_trial2_images.tar", "turbid0 trial2", "turbid0/trial2"),
+    DatasetFile(f"{_BASE}/turbid1_trial1_images.tar", "turbid1 trial1", "turbid1/trial1"),
+    DatasetFile(f"{_BASE}/turbid1_trial2_images.tar", "turbid1 trial2", "turbid1/trial2"),
+    DatasetFile(f"{_BASE}/turbid2_trial1_images.tar", "turbid2 trial1", "turbid2/trial1"),
+    DatasetFile(f"{_BASE}/turbid2_trial2_images.tar", "turbid2 trial2", "turbid2/trial2"),
+    DatasetFile(f"{_BASE}/turbid3_trial1_images.tar", "turbid3 trial1", "turbid3/trial1"),
+    DatasetFile(f"{_BASE}/turbid3_trial2_images.tar", "turbid3 trial2", "turbid3/trial2"),
+    DatasetFile(f"{_BASE}/turbid4_trial1_images.tar", "turbid4 trial1", "turbid4/trial1"),
+    DatasetFile(f"{_BASE}/turbid4_trial2_images.tar", "turbid4 trial2", "turbid4/trial2"),
+    DatasetFile(f"{_BASE}/turbid5_trial1_images.tar", "turbid5 trial1", "turbid5/trial1"),
+    DatasetFile(f"{_BASE}/turbid5_trial2_images.tar", "turbid5 trial2", "turbid5/trial2"),
 ]
 
 
-def download_and_extract_tar_files(output_directory):
-    for url, folder in TAR_FILES:
-        full_folder = os.path.join(output_directory, str(folder))  # Ensure folder is str
-        os.makedirs(full_folder, exist_ok=True)
-        print(f"Downloading {url} to {full_folder}")
-        downloaded = download_tar_gz_files([url], full_folder)
-        print(f"Extracting {downloaded} to {full_folder}")
-        extract_tar_gz_file(downloaded, full_folder)
+def download(output_folder: Path, progress_cb: Optional[ProgressCb] = None) -> "list[str]":
+    items = [(f.url, f.subfolder) for f in FILES]
+    return download_and_extract_grouped(items, str(output_folder), progress_cb=progress_cb)
+
+
+SOTRUE = Dataset(
+    name="SOTRUE",
+    category="Underwater",
+    description="Underwater image dataset captured across graded turbidity levels "
+                "(turbid0-turbid5), each with repeated trials, for robustness studies.",
+    modalities="Camera images",
+    data_format="tar (images)",
+    image_frames=True,
+    downloader=download,
+    files=FILES,
+)
 
 
 if __name__ == "__main__":
-    output_dir = r"C:\Users\oat\Datasets\SOTRUE"
-    download_and_extract_tar_files(output_dir)
+    download(Path.home() / "Datasets" / "SOTRUE")

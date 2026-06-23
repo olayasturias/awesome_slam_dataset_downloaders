@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Awesome SLAM Dataset Downloaders</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--fg:#e6edf3;--muted:#8b949e;
+--accent:#58a6ff;--green:#2ea043;--grey:#6e7681}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header h1{margin:0 0 .25rem;font-size:1.9rem}
+header p{color:var(--muted);margin:.25rem 0}
+.repo{display:inline-block;margin-top:.5rem;padding:.4rem .8rem;border:1px solid var(--border);
+border-radius:6px;background:var(--card)}
+.note{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);
+border-radius:6px;padding:.75rem 1rem;margin:1.5rem 0;color:var(--muted);font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1rem;margin-top:1rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;
+display:flex;flex-direction:column}
+.card.unreleased{opacity:.72}
+.card h2{margin:0 0 .4rem;font-size:1.2rem}
+.meta{color:var(--muted);font-size:.85rem;margin:.1rem 0}
+.desc{font-size:.92rem;margin:.6rem 0 .8rem}
+.badges{margin:.2rem 0 .4rem}
+.badge{display:inline-block;font-size:.72rem;padding:.12rem .5rem;border-radius:20px;
+margin:0 .3rem .3rem 0;border:1px solid var(--border);color:var(--muted)}
+.badge.gt{border-color:var(--green);color:var(--green)}
+.badge.warn{border-color:#d29922;color:#d29922}
+.files{margin-top:auto;display:flex;flex-wrap:wrap;gap:.4rem;padding-top:.6rem}
+.dl{display:inline-block;font-size:.82rem;padding:.32rem .6rem;border:1px solid var(--accent);
+border-radius:6px;color:var(--accent);background:transparent}
+.dl:hover{background:var(--accent);color:#0d1117;text-decoration:none}
+.links{margin-top:.6rem;font-size:.85rem}
+footer{margin-top:3rem;color:var(--muted);font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Awesome SLAM Dataset Downloaders</h1>
+    <p>Curated SLAM datasets with direct download links.</p>
+    <a class="repo" href="https://github.com/olayasturias/awesome_slam_dataset_downloaders">&#9733; View on GitHub</a>
+  </header>
+  <div class="note">
+    Download buttons link directly to each dataset's host (Zenodo, SEANOE, Wasabi,
+    Seafile, &hellip;); your browser downloads from there. For automatic
+    download <em>and extraction</em>, clone the repo and run the local tool:
+    <code>python web_downloader.py</code> or <code>python -m source.&lt;name&gt;</code>.
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2>SubPipe</h2>
+      <div class="meta">Underwater</div>
+      <div class="meta">Sensors: Mono camera</div>
+      <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">zip</span></div>
+      <div class="desc">Pipeline inspection dataset focused on structured underwater environments with ground-truth trajectories.</div>
+      <div class="links"><a href="https://github.com/remaro-network/SubPipe-dataset">Homepage</a></div>
+      <div class="files"><a class="dl" href="https://zenodo.org/records/12666132/files/SubPipe.zip?download=1" download>SubPipe.zip</a></div>
+    </div>
+    <div class="card">
+      <h2>SOTRUE</h2>
+      <div class="meta">Underwater</div>
+      <div class="meta">Sensors: Camera images</div>
+      <div class="badges"><span class="badge gt">Image frames</span><span class="badge">tar (images)</span></div>
+      <div class="desc">Underwater image dataset captured across graded turbidity levels (turbid0-turbid5), each with repeated trials, for robustness studies.</div>
+      
+      <div class="files"><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid0_trial1_images.tar" download>turbid0 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar" download>turbid0 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial1_images.tar" download>turbid1 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid1_trial2_images.tar" download>turbid1 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial1_images.tar" download>turbid2 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid2_trial2_images.tar" download>turbid2 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial1_images.tar" download>turbid3 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid3_trial2_images.tar" download>turbid3 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial1_images.tar" download>turbid4 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid4_trial2_images.tar" download>turbid4 trial2</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial1_images.tar" download>turbid5 trial1</a><a class="dl" href="https://s3.us-west-1.wasabisys.com/sotrue/turbid5_trial2_images.tar" download>turbid5 trial2</a></div>
+    </div>
+    <div class="card">
+      <h2>EiffelTower</h2>
+      <div class="meta">Underwater</div>
+      <div class="meta">Sensors: Mono camera</div>
+      <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">zip</span></div>
+      <div class="desc">Multi-year underwater survey (2015-2020) around the Eiffel Tower deep-sea vent. Suitable for long-term SLAM, temporal change analysis, and relocalization.</div>
+      <div class="links"><a href="https://www.seanoe.org/data/00810/92226/">Homepage</a></div>
+      <div class="files"><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98240.zip" download>2015</a><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98289.zip" download>2016</a><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98314.zip" download>2018</a><a class="dl" href="https://www.seanoe.org/data/00810/92226/data/98356.zip" download>2020</a></div>
+    </div>
+    <div class="card">
+      <h2>Aqualoc Archaeological Site</h2>
+      <div class="meta">Underwater</div>
+      <div class="meta">Sensors: Mono camera, IMU, pressure</div>
+      <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">tar.gz</span></div>
+      <div class="desc">Large-scale underwater visual SLAM sequences at deep archaeological sites, with camera trajectories and challenging turbidity/lighting.</div>
+      <div class="links"><a href="https://www.aqualoc.org/">Homepage</a></div>
+      <div class="files"><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_1_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_1</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_2_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_2</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_3_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_3</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_4_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_4</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_5_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_5</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_6_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_6</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_7_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_7</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_8_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_8</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_9_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_9</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FArchaeological_site_sequences%2Farchaeo_sequence_10_raw_data.tar.gz&amp;dl=1" download>archaeo_sequence_10</a></div>
+    </div>
+    <div class="card">
+      <h2>Aqualoc Harbor Site</h2>
+      <div class="meta">Underwater</div>
+      <div class="meta">Sensors: Mono camera, IMU, pressure</div>
+      <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">tar.gz</span></div>
+      <div class="desc">Shallow-water harbor sequences of the Aqualoc visual SLAM dataset, with camera trajectories and challenging turbidity/lighting.</div>
+      <div class="links"><a href="https://www.aqualoc.org/">Homepage</a></div>
+      <div class="files"><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_01_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_01</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_02_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_02</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_03_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_03</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_04_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_04</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_05_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_05</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_06_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_06</a><a class="dl" href="https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_sequence_07_raw_data.tar.gz&amp;dl=1" download>harbor_sequence_07</a></div>
+    </div>
+    <div class="card">
+      <h2>SOLAQUA</h2>
+      <div class="meta">Underwater</div>
+      <div class="meta">Sensors: Mono + stereo cameras, multibeam sonar, DVL, USBL, IMU, baro</div>
+      <div class="badges"><span class="badge gt">Pose GT</span><span class="badge gt">Image frames</span><span class="badge">ROS bag</span><span class="badge">CC BY-SA 4.0</span></div>
+      <div class="desc">SINTEF Ocean Large Aquaculture Robotics Dataset: net-following, manual-control and calibration sequences recorded by an underwater robot in an operational fish farm (63 sequences total).</div>
+      <div class="links"><a href="https://data.sintef.no/feature/fe-a8f86232-5107-495e-a3dd-a86460eebef6">Homepage</a> &middot; <a href="https://arxiv.org/abs/2504.01790">Paper</a></div>
+      <div class="note" style="margin:.6rem 0 0">Download links are access-controlled. <a href="https://data.sintef.no/feature/fe-a8f86232-5107-495e-a3dd-a86460eebef6">Visit the dataset portal</a>.</div>
+    </div>
+    <div class="card unreleased">
+      <h2>SOVIS</h2>
+      <div class="meta">Underwater</div>
+      <div class="meta">Sensors: Mono camera + multibeam sonar (Oculus M750d)</div>
+      <div class="badges"><span class="badge gt">Image frames</span><span class="badge">ROS 2 bag (sonar) + H.264 (video)</span><span class="badge warn">data not released</span></div>
+      <div class="desc">Sonar-visual dataset for cross-modal underwater perception: ~76.6k paired multibeam-sonar/camera frames over 17 dives at six Trondheimfjord sites. Data not yet publicly released.</div>
+      <div class="links"><a href="https://arxiv.org/abs/2606.01398">Paper</a></div>
+      <div class="note" style="margin:.6rem 0 0">Data not publicly released yet. <a href="https://arxiv.org/abs/2606.01398">See paper</a>.</div>
+    </div>
+  </div>
+  <footer>
+    Generated from <code>source/registry.py</code> by <code>build_site.py</code>.
+    &middot; <a href="https://github.com/olayasturias/awesome_slam_dataset_downloaders">https://github.com/olayasturias/awesome_slam_dataset_downloaders</a>
+  </footer>
+</div>
+</body>
+</html>

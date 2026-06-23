@@ -1,46 +1,16 @@
-import importlib
-from pathlib import Path
-from flask import Flask, render_template_string, request, redirect, url_for, flash, jsonify
-import webview
+import logging
 import threading
-import time
+from pathlib import Path
+
+import webview
+from flask import Flask, render_template_string, request, redirect, url_for, flash, jsonify
+
+from source.registry import DATASETS
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
 app = Flask(__name__)
 app.secret_key = 'slam_secret_key'
-
-# List of available downloaders
-DOWNLOADERS = [
-    {
-        'name': 'SubPipe',
-        'module': 'source.subpipe',
-        'function': 'download_subpipe',
-        'param': 'output_folder',
-    },
-    {
-        'name': 'SOTRUE',
-        'module': 'source.sotrue',
-        'function': 'download_and_extract_tar_files',
-        'param': 'output_directory',
-    },
-    {
-        'name': 'EiffelTower',
-        'module': 'source.eiffel_tower',
-        'function': 'download_eiffel_tower',
-        'param': 'output_folder',
-    },
-    {
-        'name': 'Aqualoc Archaeological Site',
-        'module': 'source.aqualoc',
-        'function': 'download_aqualoc_archaeological_site_sequences',
-        'param': 'output_folder',
-    },
-    {
-        'name': 'Aqualoc Harbor Site',
-        'module': 'source.aqualoc',
-        'function': 'download_aqualoc_harbor_site_sequences',
-        'param': 'output_folder',
-    },
-]
 
 HTML = '''
 <!doctype html>
@@ -59,10 +29,14 @@ HTML = '''
       <form method=post id="downloaderForm">
         <div class="mb-3">
           <label class="form-label">Datasets:</label><br>
-          {% for d in downloaders %}
+          {% for d in datasets %}
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="downloader" value="{{ loop.index0 }}" id="downloader_{{ loop.index0 }}">
-              <label class="form-check-label" for="downloader_{{ loop.index0 }}">{{ d.name }}</label>
+              <input class="form-check-input" type="checkbox" name="downloader" value="{{ loop.index0 }}" id="downloader_{{ loop.index0 }}" {% if not d.released %}disabled{% endif %}>
+              <label class="form-check-label" for="downloader_{{ loop.index0 }}">
+                {{ d.name }}
+                <small class="text-muted">&mdash; {{ d.category }}{% if d.data_format %}, {{ d.data_format }}{% endif %}</small>
+                {% if not d.released %}<span class="badge bg-secondary">data not released</span>{% endif %}
+              </label>
             </div>
           {% endfor %}
         </div>
@@ -100,7 +74,6 @@ HTML = '''
   </div>
 </div>
 <script>
-// pywebview integration for folder picker
 function updateProgress() {
   {% for idx, status in progress_status.items() %}
     fetch('/progress/{{ idx }}')
@@ -121,41 +94,56 @@ setInterval(updateProgress, 1000);
 </html>
 '''
 
-# Global dict to track progress and control
+# Global dicts to track progress and control
 progress_status = {}
 stop_flags = {}
 
-# Helper to wrap downloaders for progress
+
 class DownloadThread(threading.Thread):
-    def __init__(self, idx, func, param):
+    """Run a dataset download in the background, reporting real progress."""
+
+    def __init__(self, idx, dataset, folder):
         super().__init__()
         self.idx = idx
-        self.func = func
-        self.param = param
+        self.dataset = dataset
+        self.folder = folder
         self.daemon = True
+
     def run(self):
         progress_status[self.idx] = {'progress': 0, 'status': 'Downloading'}
+
+        def progress_cb(fraction, message):
+            if stop_flags.get(self.idx):
+                # Cooperative stop: raised inside the worker to unwind the download.
+                raise RuntimeError("stopped")
+            progress_status[self.idx] = {
+                'progress': int(fraction * 100),
+                'status': message,
+            }
+
         try:
-            # Simulate progress for demo; replace with real progress reporting
-            for i in range(1, 101):
-                if stop_flags.get(self.idx):
-                    progress_status[self.idx] = {'progress': i, 'status': 'Stopped'}
-                    return
-                progress_status[self.idx] = {'progress': i, 'status': 'Downloading'}
-                time.sleep(0.05)  # Simulate work
-            self.func(self.param)
+            self.dataset.download(self.folder, progress_cb=progress_cb)
             progress_status[self.idx] = {'progress': 100, 'status': 'Completed'}
-        except Exception as e:
-            progress_status[self.idx] = {'progress': 0, 'status': f'Error: {e}'}
+        except RuntimeError as exc:
+            if str(exc) == "stopped":
+                progress_status[self.idx] = {
+                    'progress': progress_status[self.idx]['progress'], 'status': 'Stopped'}
+            else:
+                progress_status[self.idx] = {'progress': 0, 'status': f'Error: {exc}'}
+        except Exception as exc:  # noqa: BLE001 - surface any error in the UI
+            progress_status[self.idx] = {'progress': 0, 'status': f'Error: {exc}'}
+
 
 @app.route('/progress/<int:idx>')
 def progress(idx):
     return jsonify(progress_status.get(idx, {'progress': 0, 'status': 'Idle'}))
 
+
 @app.route('/stop/<int:idx>', methods=['POST'])
 def stop(idx):
     stop_flags[idx] = True
     return jsonify({'stopped': True})
+
 
 class Api:
     def select_folder(self):
@@ -176,28 +164,25 @@ def index():
         folder = request.form['folder']
         messages = []
         for idx in idxs:
-            downloader = DOWNLOADERS[int(idx)]
-            try:
-                mod = importlib.import_module(downloader['module'])
-                func = getattr(mod, downloader['function'])
-                param = folder
-                if 'Path' in str(func.__annotations__.get(downloader['param'], '')):
-                    param = Path(folder)
-                # Start download in background thread
-                stop_flags[int(idx)] = False
-                thread = DownloadThread(int(idx), func, param)
-                thread.start()
-                messages.append(f"Download started for {downloader['name']} in {folder}")
-            except Exception as e:
-                messages.append(f"Error for {downloader['name']}: {e}")
+            i = int(idx)
+            dataset = DATASETS[i]
+            if not dataset.released:
+                messages.append(f"{dataset.name}: data not released yet, skipped.")
+                continue
+            stop_flags[i] = False
+            DownloadThread(i, dataset, folder).start()
+            messages.append(f"Download started for {dataset.name} in {folder}")
         for msg in messages:
             flash(msg)
         return redirect(url_for('index'))
-    return render_template_string(HTML, downloaders=DOWNLOADERS, default_folder=default_folder, progress_status=progress_status)
+    return render_template_string(HTML, datasets=DATASETS, default_folder=default_folder,
+                                  progress_status=progress_status)
+
 
 def run_app():
-    window = webview.create_window('SLAM Dataset Downloader', app, js_api=Api())
+    webview.create_window('SLAM Dataset Downloader', app, js_api=Api())
     webview.start()
+
 
 if __name__ == '__main__':
     run_app()
